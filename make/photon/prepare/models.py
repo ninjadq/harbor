@@ -14,7 +14,8 @@ class InternalTLS:
         'proxy.crt', 'proxy.key',
         'core.crt', 'core.key',
         'job_service.crt', 'job_service.key',
-        'registryctl.crt', 'registryctl.key'
+        'registryctl.crt', 'registryctl.key',
+        'registry.crt', 'registry.key'
     }
 
     clair_certs_filename = {
