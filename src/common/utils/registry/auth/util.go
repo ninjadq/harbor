@@ -23,7 +23,6 @@ import (
 	"github.com/docker/distribution/registry/auth/token"
 	commonhttp "github.com/goharbor/harbor/src/common/http"
 	"github.com/goharbor/harbor/src/common/models"
-	"github.com/goharbor/harbor/src/common/utils/registry"
 )
 
 const (
@@ -34,7 +33,7 @@ const (
 func GetToken(endpoint string, insecure bool, credential Credential,
 	scopes []*token.ResourceActions) (*models.Token, error) {
 	client := &http.Client{
-		Transport: registry.GetHTTPTransport(insecure),
+		Transport: commonhttp.GetHTTPTransport(commonhttp.InsecureTransport),
 	}
 
 	return getToken(client, credential, endpoint, service, scopes)

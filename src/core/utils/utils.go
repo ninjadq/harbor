@@ -27,9 +27,9 @@ import (
 	"github.com/goharbor/harbor/src/core/service/token"
 )
 
-// NewRepositoryClientForUI creates a repository client that can only be used to
+// NewRepositoryClientForInternal creates a repository client that can only be used to
 // access the internal registry
-func NewRepositoryClientForUI(username, repository string) (*registry.Repository, error) {
+func NewRepositoryClientForInternal(username, repository string) (*registry.Repository, error) {
 	endpoint, err := config.RegistryURL()
 	if err != nil {
 		return nil, err
@@ -42,7 +42,7 @@ func NewRepositoryClientForUI(username, repository string) (*registry.Repository
 func NewRepositoryClientForLocal(username, repository string) (*registry.Repository, error) {
 	// The 127.0.0.1:8080 is not reachable as we do not enable core in UT env.
 	if os.Getenv("UTTEST") == "true" {
-		return NewRepositoryClientForUI(username, repository)
+		return NewRepositoryClientForInternal(username, repository)
 	}
 	return newRepositoryClient(config.LocalCoreURL(), username, repository)
 }
@@ -64,7 +64,7 @@ func newRepositoryClient(endpoint, username, repository string) (*registry.Repos
 func WaitForManifestReady(repository string, tag string, maxRetry int) bool {
 	// The initial wait interval, hard-coded to 80ms, interval will be 80ms,200ms,500ms,1.25s,3.124999936s
 	interval := 80 * time.Millisecond
-	repoClient, err := NewRepositoryClientForUI("harbor-core", repository)
+	repoClient, err := NewRepositoryClientForInternal("harbor-core", repository)
 	if err != nil {
 		log.Errorf("Failed to create repo client.")
 		return false

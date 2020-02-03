@@ -433,7 +433,7 @@ func (ra *RepositoryAPI) GetTag() {
 		return
 	}
 
-	client, err := coreutils.NewRepositoryClientForUI(ra.SecurityCtx.GetUsername(), repository)
+	client, err := coreutils.NewRepositoryClientForInternal(ra.SecurityCtx.GetUsername(), repository)
 	if err != nil {
 		ra.SendInternalServerError(fmt.Errorf("failed to initialize the client for %s: %v",
 			repository, err))
@@ -575,7 +575,7 @@ func (ra *RepositoryAPI) GetTags() {
 		return
 	}
 
-	client, err := coreutils.NewRepositoryClientForUI(ra.SecurityCtx.GetUsername(), repoName)
+	client, err := coreutils.NewRepositoryClientForInternal(ra.SecurityCtx.GetUsername(), repoName)
 	if err != nil {
 		log.Errorf("error occurred while initializing repository client for %s: %v", repoName, err)
 		ra.SendInternalServerError(errors.New("internal error"))
@@ -869,7 +869,7 @@ func (ra *RepositoryAPI) GetManifests() {
 		return
 	}
 
-	rc, err := coreutils.NewRepositoryClientForUI(ra.SecurityCtx.GetUsername(), repoName)
+	rc, err := coreutils.NewRepositoryClientForInternal(ra.SecurityCtx.GetUsername(), repoName)
 	if err != nil {
 		log.Errorf("error occurred while initializing repository client for %s: %v", repoName, err)
 		ra.SendInternalServerError(errors.New("internal error"))
@@ -1067,7 +1067,7 @@ func (ra *RepositoryAPI) checkExistence(repository, tag string) (bool, string, e
 		log.Errorf("project %s not found", project)
 		return false, "", nil
 	}
-	client, err := coreutils.NewRepositoryClientForUI(ra.SecurityCtx.GetUsername(), repository)
+	client, err := coreutils.NewRepositoryClientForInternal(ra.SecurityCtx.GetUsername(), repository)
 	if err != nil {
 		return false, "", fmt.Errorf("failed to initialize the client for %s: %v", repository, err)
 	}

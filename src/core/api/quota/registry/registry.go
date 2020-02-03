@@ -392,7 +392,7 @@ func infoOfProject(project string, repoList []string) (quota.ProjectInfo, error)
 }
 
 func infoOfRepo(pid int64, repo string) (quota.RepoData, error) {
-	repoClient, err := coreutils.NewRepositoryClientForUI("harbor-core", repo)
+	repoClient, err := coreutils.NewRepositoryClientForInternal("harbor-core", repo)
 	if err != nil {
 		return quota.RepoData{}, err
 	}

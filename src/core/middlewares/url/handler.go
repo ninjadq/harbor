@@ -46,7 +46,7 @@ func (uh urlHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		client, err := coreutils.NewRepositoryClientForUI(util.TokenUsername, repository)
+		client, err := coreutils.NewRepositoryClientForInternal(util.TokenUsername, repository)
 		if err != nil {
 			log.Errorf("Error creating repository Client: %v", err)
 			http.Error(rw, util.MarshalError("PROJECT_POLICY_VIOLATION", fmt.Sprintf("Failed due to internal Error: %v", err)), http.StatusInternalServerError)

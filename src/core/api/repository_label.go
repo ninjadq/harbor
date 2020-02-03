@@ -183,7 +183,7 @@ func (r *RepositoryLabelAPI) RemoveFromRepository() {
 }
 
 func imageExist(username, repository, tag string) (bool, error) {
-	client, err := coreutils.NewRepositoryClientForUI(username, repository)
+	client, err := coreutils.NewRepositoryClientForInternal(username, repository)
 	if err != nil {
 		return false, err
 	}

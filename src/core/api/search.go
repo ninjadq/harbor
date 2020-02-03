@@ -192,7 +192,7 @@ func filterRepositories(projects []*models.Project, keyword string) (
 }
 
 func getTags(repository string) ([]string, error) {
-	client, err := coreutils.NewRepositoryClientForUI("harbor-core", repository)
+	client, err := coreutils.NewRepositoryClientForInternal("harbor-core", repository)
 	if err != nil {
 		return nil, err
 	}

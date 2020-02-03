@@ -193,7 +193,7 @@ func (sa *ScanAPI) Log() {
 type digestGetter func(repo, tag string, username string) (string, error)
 
 func getDigest(repo, tag string, username string) (string, error) {
-	client, err := coreutils.NewRepositoryClientForUI(username, repo)
+	client, err := coreutils.NewRepositoryClientForInternal(username, repo)
 	if err != nil {
 		return "", err
 	}

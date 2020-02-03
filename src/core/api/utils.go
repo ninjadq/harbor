@@ -149,7 +149,7 @@ func diffRepos(reposInRegistry []string, reposInDB []string,
 			}
 
 			// TODO remove the workaround when the bug of registry is fixed
-			client, err := coreutils.NewRepositoryClientForUI("harbor-core", repoInR)
+			client, err := coreutils.NewRepositoryClientForInternal("harbor-core", repoInR)
 			if err != nil {
 				return needsAdd, needsDel, err
 			}
@@ -169,7 +169,7 @@ func diffRepos(reposInRegistry []string, reposInDB []string,
 			j++
 		} else {
 			// TODO remove the workaround when the bug of registry is fixed
-			client, err := coreutils.NewRepositoryClientForUI("harbor-core", repoInR)
+			client, err := coreutils.NewRepositoryClientForInternal("harbor-core", repoInR)
 			if err != nil {
 				return needsAdd, needsDel, err
 			}
@@ -201,7 +201,7 @@ func diffRepos(reposInRegistry []string, reposInDB []string,
 			continue
 		}
 
-		client, err := coreutils.NewRepositoryClientForUI("harbor-core", repoInR)
+		client, err := coreutils.NewRepositoryClientForInternal("harbor-core", repoInR)
 		if err != nil {
 			log.Errorf("failed to create repository client: %v", err)
 			continue
@@ -250,7 +250,7 @@ func initRegistryClient() (r *registry.Registry, err error) {
 
 	authorizer := auth.NewRawTokenAuthorizer("harbor-core", token.Registry)
 	return registry.NewRegistry(endpoint, &http.Client{
-		Transport: registry.NewTransport(registry.GetHTTPTransport(), authorizer),
+		Transport: registry.NewTransport(commonhttp.GetHTTPTransport(commonhttp.DefaultTransport), authorizer),
 	})
 }
 
