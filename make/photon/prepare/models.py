@@ -56,7 +56,7 @@ class InternalTLS:
 
     def __getattribute__(self, name: str):
         """
-        internal_tls.core_crt_path
+        Make the call like 'internal_tls.core_crt_path' possible
         """
         # only handle when enabled tls and name ends with 'path'
         if name.endswith('_path'):
@@ -110,6 +110,9 @@ class InternalTLS:
         return True
 
     def prepare(self):
+        """
+        Prepare move certs in tls file to data volume with correct permission.
+        """
         if not self.enabled:
             logging.info('internal tls NOT enabled...')
             return

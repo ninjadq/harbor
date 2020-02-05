@@ -41,7 +41,6 @@ def prepare_core(config_dict, with_notary, with_clair, with_chartmuseum):
         xsrf_key=generate_random_string(40))
 
 
-
 def copy_core_config(core_templates_path, core_config_path):
     shutil.copyfile(core_templates_path, core_config_path)
     print("Generated configuration file: %s" % core_config_path)

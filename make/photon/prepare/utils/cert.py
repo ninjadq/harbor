@@ -73,7 +73,7 @@ def openssl_installed():
     return True
 
 
-def prepare_nginx_ca(
+def prepare_registry_ca(
     private_key_pem_path: Path,
     root_crt_path: Path,
     old_private_key_pem_path: Path,

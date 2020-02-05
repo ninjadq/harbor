@@ -30,8 +30,8 @@ storage_ca_bundle_filename = 'storage_ca_bundle.crt'
 old_private_key_pem_path = Path('/config/core/private_key.pem')
 old_crt_path = Path('/config/registry/root.crt')
 
-private_key_pem_path = Path('/secret/core/private_key.pem')
-root_crt_path = Path('/secret/registry/root.crt')
+private_key_pem_path = secret_dir.joinpath('core', 'private_key.pem')
+root_crt_path = secret_dir.joinpath('registry', 'root.crt')
 
 config_file_path = '/compose_location/harbor.yml'
 input_config_path = '/input/harbor.yml'

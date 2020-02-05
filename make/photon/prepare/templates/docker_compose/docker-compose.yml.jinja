@@ -44,13 +44,13 @@ services:
 {%if internal_tls.enabled %}
       - type: bind
         source: {{internal_tls.harbor_internal_ca_crt_path}}
-        target: /etc/harbor/ssl/harbor_internal_ca.crt
+        target: /etc/harbor/tls/harbor_internal_ca.crt
       - type: bind
         source: {{internal_tls.registry_crt_path}}
-        target: /etc/harbor/ssl/registry.crt
+        target: /etc/harbor/tls/registry.crt
       - type: bind
         source: {{internal_tls.registry_key_path}}
-        target: /etc/harbor/ssl/registry.key
+        target: /etc/harbor/tls/registry.key
 {% endif %}
     networks:
       - harbor

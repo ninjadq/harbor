@@ -299,7 +299,13 @@ func main() {
 		if len(iTLSCertPath) == 0 {
 			log.Error("Internal TLS cert file path is empty")
 		}
-		beego.BConfig.Listen.EnableHTTPS = true
+		if iTrustCA := os.Getenv("/etc/harbor/ssl/harbor_internal_ca.crt"); iTrustCA != "" {
+			beego.BConfig.Listen.TrustCaFile = iTrustCA
+		} else {
+			log.Warning("Trust CA is empty...")
+		}
+
+		beego.BConfig.Listen.EnableMutualHTTPS = true
 		beego.BConfig.Listen.HTTPSKeyFile = iTLSKeyPath
 		beego.BConfig.Listen.HTTPSCertFile = iTLSCertPath
 	}
