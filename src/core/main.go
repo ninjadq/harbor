@@ -287,25 +287,16 @@ func main() {
 	} else {
 		log.Infof("Because SYNC_QUOTA set false , no need to sync quota \n")
 	}
-
 	iTLSEnabled := os.Getenv("INTERNAL_TLS_ENABLED")
 	if strings.ToLower(iTLSEnabled) == "true" {
 		log.Info("internal TLS enabled, Init TLS ...")
 		iTLSKeyPath := os.Getenv("INTERNAL_TLS_KEY_PATH")
-		if len(iTLSKeyPath) == 0 {
-			log.Error("Internal TLS key file path is empty")
-		}
 		iTLSCertPath := os.Getenv("INTERNAL_TLS_CERT_PATH")
-		if len(iTLSCertPath) == 0 {
-			log.Error("Internal TLS cert file path is empty")
-		}
-		if iTrustCA := os.Getenv("/etc/harbor/ssl/harbor_internal_ca.crt"); iTrustCA != "" {
-			beego.BConfig.Listen.TrustCaFile = iTrustCA
-		} else {
-			log.Warning("Trust CA is empty...")
-		}
+		iTrustCA := os.Getenv("INTERNAL_TLS_TRUST_CA_PATH")
 
+		log.Infof("load client key: %s client cert: %s client TrustCA", iTLSKeyPath, iTLSCertPath, iTrustCA)
 		beego.BConfig.Listen.EnableMutualHTTPS = true
+		beego.BConfig.Listen.TrustCaFile = iTrustCA
 		beego.BConfig.Listen.HTTPSKeyFile = iTLSKeyPath
 		beego.BConfig.Listen.HTTPSCertFile = iTLSCertPath
 	}

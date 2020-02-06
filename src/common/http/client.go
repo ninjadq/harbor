@@ -17,10 +17,8 @@ package http
 import (
 	"bytes"
 	"crypto/tls"
-	"crypto/x509"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -29,7 +27,6 @@ import (
 	"strings"
 
 	"github.com/goharbor/harbor/src/common/http/modifier"
-	"github.com/goharbor/harbor/src/common/utils/log"
 )
 
 const (
@@ -77,24 +74,12 @@ type Client struct {
 
 func initInternalTransport() {
 	if InternalTLSEnabled() {
-		caCert, err := GetInternalCA()
+		tlsConfig, err := GetInternalTLSConfig()
 		if err != nil {
-			log.Error(err)
+			panic(err)
 		}
-		caCertPool := x509.NewCertPool()
-		caCertPool.AppendCertsFromPEM(caCert)
-
-		cert, err := GetInternalCertPair()
-		// TLS enabled but not provide file should cause a panic
-		if err != nil {
-			panic(fmt.Errorf("internal TLS enabled but can not get key pair %w", err))
-		}
-
 		internalTransport = &http.Transport{
-			TLSClientConfig: &tls.Config{
-				RootCAs:      caCertPool,
-				Certificates: []tls.Certificate{cert},
-			},
+			TLSClientConfig: tlsConfig,
 		}
 	} else {
 		internalTransport = &http.Transport{

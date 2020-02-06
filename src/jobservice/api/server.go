@@ -15,12 +15,13 @@
 package api
 
 import (
+	"context"
 	"crypto/tls"
 	"fmt"
 	"net/http"
 	"time"
 
-	"context"
+	commonhttp "github.com/goharbor/harbor/src/common/http"
 	"github.com/goharbor/harbor/src/jobservice/config"
 	"github.com/goharbor/harbor/src/jobservice/logger"
 )
@@ -83,8 +84,10 @@ func NewServer(ctx context.Context, router Router, cfg ServerConfig) *Server {
 				tls.TLS_RSA_WITH_AES_256_GCM_SHA384,
 				tls.TLS_RSA_WITH_AES_256_CBC_SHA,
 			},
+			ClientAuth: tls.RequireAndVerifyClientCert,
 		}
 
+		tlsCfg.RootCAs = commonhttp.GetInternalCA(tlsCfg.RootCAs)
 		srv.TLSConfig = tlsCfg
 		srv.TLSNextProto = make(map[string]func(*http.Server, *tls.Conn, http.Handler), 0)
 	}

@@ -16,9 +16,13 @@ package http
 
 import (
 	"crypto/tls"
+	"crypto/x509"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
+
+	"github.com/goharbor/harbor/src/common/utils/log"
 )
 
 const (
@@ -39,13 +43,23 @@ func InternalTLSEnabled() bool {
 }
 
 // GetInternalCA used to get internal cert file from Env
-func GetInternalCA() ([]byte, error) {
-	caPath := os.Getenv(internalTrustCAPath)
-	caCert, err := ioutil.ReadFile(caPath)
-	if err != nil {
-		return nil, err
+func GetInternalCA(caPool *x509.CertPool) *x509.CertPool {
+	if caPool == nil {
+		caPool = x509.NewCertPool()
 	}
-	return caCert, nil
+
+	caPath := os.Getenv(internalTrustCAPath)
+	if caPath != "" {
+		caCert, err := ioutil.ReadFile(caPath)
+		if err != nil {
+			log.Errorf("read ca file %s failure %w", caPath, err)
+		}
+		if ok := caPool.AppendCertsFromPEM(caCert); !ok {
+			log.Errorf("append ca to ca pool fail")
+		}
+	}
+
+	return caPool
 }
 
 // GetInternalCertPair used to get internal cert and key pair from environment
@@ -54,4 +68,21 @@ func GetInternalCertPair() (tls.Certificate, error) {
 	keyPath := os.Getenv(internalTLSKeyPath)
 	cert, err := tls.LoadX509KeyPair(crtPath, keyPath)
 	return cert, err
+}
+
+// GetInternalTLSConfig return a tls.Config for internal https communicate
+func GetInternalTLSConfig() (*tls.Config, error) {
+	// generate ca pool
+	caCertPool := GetInternalCA(nil)
+
+	// genrate key pair
+	cert, err := GetInternalCertPair()
+	if err != nil {
+		return nil, fmt.Errorf("internal TLS enabled but can't get cert file %w", err)
+	}
+
+	return &tls.Config{
+		RootCAs:      caCertPool,
+		Certificates: []tls.Certificate{cert},
+	}, nil
 }

@@ -338,13 +338,13 @@ services:
 {%if internal_tls.enabled %}
       - type: bind
         source: {{internal_tls.harbor_internal_ca_crt_path}}
-        target: /etc/harbor/ssl/harbor_internal_ca.crt
+        target: /etc/harbor/tls/harbor_internal_ca.crt
       - type: bind
         source: {{internal_tls.proxy_crt_path}}
-        target: /etc/harbor/ssl/proxy.crt
+        target: /etc/harbor/tls/proxy.crt
       - type: bind
         source: {{internal_tls.proxy_key_path}}
-        target: /etc/harbor/ssl/proxy.key
+        target: /etc/harbor/tls/proxy.key
 {% endif %}
     networks:
       - harbor

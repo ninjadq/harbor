@@ -106,12 +106,12 @@ def parse_yaml_config(config_file_path, with_notary, with_clair, with_chartmuseu
         configs = yaml.load(f)
 
     config_dict = {
-        'adminserver_url': "http://adminserver:8080",
-        'registry_url': "http://registry:5000",
-        'registry_controller_url': "http://registryctl:8080",
-        'core_url': "http://core:8080",
-        'core_local_url': "http://127.0.0.1:8080",
-        'token_service_url': "http://core:8080/service/token",
+        'adminserver_url': 'http://adminserver:8080',
+        'registry_url': 'http://registry:5000',
+        'registry_controller_url': 'http://registryctl:8080',
+        'core_url': 'http://core:8080',
+        'core_local_url': 'http://127.0.0.1:8080',
+        'token_service_url': 'http://core:8080/service/token',
         'jobservice_url': 'http://jobservice:8080',
         'clair_url': 'http://clair:6060',
         'clair_adapter_url': 'http://clair-adapter:8080',
@@ -342,6 +342,16 @@ def parse_yaml_config(config_file_path, with_notary, with_clair, with_chartmuseu
             with_clair=with_clair,
             with_chartmuseum=with_chartmuseum,
             external_database=config_dict['external_database'])
+
+        if config_dict['internal_tls'].enabled:
+            config_dict['registry_controller_url'] = 'http://registryctl:1443',
+            config_dict['core_url'] = 'http://core:10443',
+            config_dict['core_local_url'] = 'http://127.0.0.1:10443',
+            config_dict['token_service_url'] = 'http://core:10443/service/token',
+            config_dict['jobservice_url'] = 'http://jobservice:5443',
+            # config_dict['clair_adapter_url'] = 'http://clair-adapter:2443',
+            # config_dict['notary_url'] = 'http://notary-server:4443',
+            # config_dict['chart_repository_url'] = 'http://chartmuseum:9443'
 
     return config_dict
 
