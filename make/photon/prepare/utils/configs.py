@@ -344,14 +344,14 @@ def parse_yaml_config(config_file_path, with_notary, with_clair, with_chartmuseu
             external_database=config_dict['external_database'])
 
         if config_dict['internal_tls'].enabled:
-            config_dict['registry_controller_url'] = 'http://registryctl:1443',
-            config_dict['core_url'] = 'http://core:10443',
-            config_dict['core_local_url'] = 'http://127.0.0.1:10443',
-            config_dict['token_service_url'] = 'http://core:10443/service/token',
-            config_dict['jobservice_url'] = 'http://jobservice:5443',
-            # config_dict['clair_adapter_url'] = 'http://clair-adapter:2443',
-            # config_dict['notary_url'] = 'http://notary-server:4443',
-            # config_dict['chart_repository_url'] = 'http://chartmuseum:9443'
+            config_dict['registry_controller_url'] = 'https://registryctl:1443'
+            config_dict['core_url'] = 'https://core:10443'
+            config_dict['core_local_url'] = 'https://127.0.0.1:10443'
+            config_dict['token_service_url'] = 'https://core:10443/service/token'
+            config_dict['jobservice_url'] = 'https://jobservice:5443'
+            # config_dict['clair_adapter_url'] = 'https://clair-adapter:2443'
+            # config_dict['notary_url'] = 'https://notary-server:4443'
+            # config_dict['chart_repository_url'] = 'https://chartmuseum:9443'
 
     return config_dict
 
