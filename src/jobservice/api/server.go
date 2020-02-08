@@ -74,22 +74,11 @@ func NewServer(ctx context.Context, router Router, cfg ServerConfig) *Server {
 
 	// Initialize TLS/SSL config if protocol is https
 	if cfg.Protocol == config.JobServiceProtocolHTTPS {
-		tlsCfg := &tls.Config{
-			MinVersion:               tls.VersionTLS12,
-			CurvePreferences:         []tls.CurveID{tls.CurveP521, tls.CurveP384, tls.CurveP256},
-			PreferServerCipherSuites: true,
-			CipherSuites: []uint16{
-				tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-				tls.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
-				tls.TLS_RSA_WITH_AES_256_GCM_SHA384,
-				tls.TLS_RSA_WITH_AES_256_CBC_SHA,
-			},
+		logger.Infof("https enabled, load trustCAs")
+		srv.TLSConfig = &tls.Config{
 			ClientAuth: tls.RequireAndVerifyClientCert,
+			ClientCAs:  commonhttp.GetInternalCA(nil),
 		}
-
-		tlsCfg.RootCAs = commonhttp.GetInternalCA(tlsCfg.RootCAs)
-		srv.TLSConfig = tlsCfg
-		srv.TLSNextProto = make(map[string]func(*http.Server, *tls.Conn, http.Handler), 0)
 	}
 
 	apiServer.httpServer = srv
