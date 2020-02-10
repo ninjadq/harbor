@@ -351,7 +351,7 @@ def parse_yaml_config(config_file_path, with_notary, with_clair, with_chartmuseu
             config_dict['jobservice_url'] = 'https://jobservice:8443'
             # config_dict['clair_adapter_url'] = 'https://clair-adapter:8443'
             # config_dict['notary_url'] = 'https://notary-server:4443'
-            # config_dict['chart_repository_url'] = 'https://chartmuseum:9443'
+            config_dict['chart_repository_url'] = 'https://chartmuseum:9443'
 
     return config_dict
 

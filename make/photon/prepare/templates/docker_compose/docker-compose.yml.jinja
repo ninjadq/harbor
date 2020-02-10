@@ -558,10 +558,10 @@ services:
         target: /etc/harbor/ssl/harbor_internal_ca.crt
       - type: bind
         source: {{internal_tls.chart_museum_crt_path}}
-        target: /etc/harbor/ssl/chart_museum.crt
+        target: /etc/harbor/ssl/chartmuseum.crt
       - type: bind
         source: {{internal_tls.chart_museum_key_path}}
-        target: /etc/harbor/ssl/chart_museum.key
+        target: /etc/harbor/ssl/chartmuseum.key
 {% endif %}
 {% if gcs_keyfile %}
       - type: bind
