@@ -12,19 +12,16 @@ registryctl_conf_env = os.path.join(config_dir, "registryctl", "env")
 
 def prepare_registry_ctl(config_dict):
     # prepare dir
-    prepare_registry_ctl_config_dir()
+    prepare_dir(registryctl_config_dir)
 
-    # Render Registryctl
+    # Render Registryctl env
     render_jinja(
         registryctl_env_template_path,
         registryctl_conf_env,
         **config_dict)
 
-    # Copy Registryctl config
-    copy_registry_ctl_conf(registryctl_config_template_path, registryctl_conf)
-
-def prepare_registry_ctl_config_dir():
-    prepare_dir(registryctl_config_dir)
-
-def copy_registry_ctl_conf(src, dst):
-    shutil.copyfile(src, dst)
+    # Render Registryctl config
+    render_jinja(
+        registryctl_config_template_path,
+        registryctl_conf,
+        **config_dict)
