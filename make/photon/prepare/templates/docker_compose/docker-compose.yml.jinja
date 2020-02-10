@@ -557,10 +557,10 @@ services:
         source: {{internal_tls.harbor_internal_ca_crt_path}}
         target: /etc/harbor/ssl/harbor_internal_ca.crt
       - type: bind
-        source: {{internal_tls.chart_museum_crt_path}}
+        source: {{internal_tls.chartmuseum_crt_path}}
         target: /etc/harbor/ssl/chartmuseum.crt
       - type: bind
-        source: {{internal_tls.chart_museum_key_path}}
+        source: {{internal_tls.chartmuseum_key_path}}
         target: /etc/harbor/ssl/chartmuseum.key
 {% endif %}
 {% if gcs_keyfile %}
