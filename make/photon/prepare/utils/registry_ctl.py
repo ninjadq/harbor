@@ -1,6 +1,6 @@
 import os, shutil
 
-from g import config_dir, templates_dir
+from g import config_dir, templates_dir, DEFAULT_GID, DEFAULT_UID
 from utils.misc import prepare_dir
 from utils.jinja import render_jinja
 
@@ -24,4 +24,6 @@ def prepare_registry_ctl(config_dict):
     render_jinja(
         registryctl_config_template_path,
         registryctl_conf,
+        uid=DEFAULT_UID,
+        gid=DEFAULT_GID,
         **config_dict)

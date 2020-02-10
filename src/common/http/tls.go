@@ -57,7 +57,7 @@ func GetInternalCA(caPool *x509.CertPool) *x509.CertPool {
 		if ok := caPool.AppendCertsFromPEM(caCert); !ok {
 			log.Errorf("append ca to ca pool fail")
 		} else {
-			log.Errorf("append trustCA %s success", caPath)
+			log.Infof("append trustCA %s success", caPath)
 		}
 	}
 
