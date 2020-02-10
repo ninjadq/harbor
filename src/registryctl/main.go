@@ -38,7 +38,7 @@ func (s *RegistryCtl) Start() {
 		Handler: s.Handler,
 	}
 
-	if s.ServerConf.Protocol == "HTTPS" {
+	if s.ServerConf.Protocol == "https" {
 		tlsCfg := &tls.Config{
 			MinVersion:               tls.VersionTLS12,
 			CurvePreferences:         []tls.CurveID{tls.CurveP521, tls.CurveP384, tls.CurveP256},
