@@ -29,8 +29,8 @@ class InternalTLS:
     }
 
     chart_museum_filename = {
-        'chart_museum.crt',
-        'chart_museum.key'
+        'chartmuseum.crt',
+        'chartmuseum.key'
     }
 
     db_certs_filename = {
